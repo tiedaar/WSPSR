@@ -32,7 +32,7 @@ All current audio transformers are encoder-only, meaning that they must be finet
 ## Architecture
 ![WSPSR pipeline](/pictures/wspsr-pipeline.png)
 
-**Input**: 𝒛 ∈ 𝑉*<sub>𝒛</sub>, sequence of audio features; 𝒙 ∈ 𝑉*<sub>𝒙</sub>, a sequence of token IDs.  
+**Input**: 𝒛 ∈ 𝑉*<sub>𝒛</sub>, sequence of Mel spectrogram coefficients; 𝒙 ∈ 𝑉*<sub>𝒙</sub>, a sequence of token IDs.  
 **Output**: 𝑷 ∈ (0, 1)	<sup>𝑁<sub>V</sub>×length(𝒙)</sup>, where the 𝑡-th column of 𝑷 represents 𝑃ˆ𝜽(𝑥 [𝑡 + 1] | 𝒙[1 : 𝑡], 𝒛).  
 **Hyperparameters**: *l*<sub>max</sub>, 𝐿, 𝐻, 𝑑<sub>e</sub>, 𝑑<sub>mlp</sub> ∈ ℕ  
 **Parameters**: 𝜽 includes all of the following parameters:  
@@ -50,7 +50,7 @@ All current audio transformers are encoder-only, meaning that they must be finet
 
 _encode the context sequence_
 1. *l*<sub>z</sub> ← length(𝒛)
-2. for 𝑡 ∈ [*l*<sub>z</sub>] : 𝒆<sub>𝑡</sub> ← 𝑾<sub>𝒆</sub> [:, 𝒛 [𝑡]] + 𝑾<sub>𝒑</sub> [:, 𝑡]
+2. for 𝑡 ∈ [*l*<sub>z</sub>] : 𝒆<sub>𝑡</sub> ← 2 x conv(𝒛[𝑡], GELU) + 𝑾<sub>𝒑</sub> [:, 𝑡]
 3. 𝑿 ← [𝒆<sub>1</sub>, 𝒆<sub>2</sub>, . . . 𝒆<sub>*l*</sub>]
 4. for 𝑙 = 1, 2, . . . , 𝐿 do
 5. * | 𝒁 ← 𝒁 + MHAttention(𝒁| 𝑾<sup>enc</sup><sub>l</sub> 𝑙, Mask = 1)
