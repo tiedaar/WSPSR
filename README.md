@@ -31,7 +31,7 @@ All current audio transformers are encoder-only, meaning that they must be finet
 ## Architecture
 ![WSPSR pipeline](/pictures/wspsr-pipeline.png)
 
-Input: 𝒛, 𝒙 ∈ 𝑉*, two sequences of token IDs.
+Input: 𝒛, 𝒙 ∈ 𝑉*, two sequences of token IDs.  
 Output: 𝑷 ∈ (0, 1)	<sup>𝑁<sub>V</sub>×length(𝒙)</sup>, where the 𝑡-th column of 𝑷 represents 𝑃ˆ𝜽(𝑥 [𝑡 + 1] | 𝒙[1 : 𝑡], 𝒛).
 
 
