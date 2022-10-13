@@ -47,6 +47,17 @@ All current audio transformers are encoder-only, meaning that they must be finet
   * | 𝜸<sup>3</sup><sub>𝑙</sub>, 𝜷<sup>3</sup><sub>𝑙</sub>, 𝜸<sup>4</sup><sub>𝑙</sub>, 𝜷<sup>4</sup><sub>𝑙</sub>, 𝜸<sup>5</sup><sub>𝑙</sub>, 𝜷<sup>5</sup><sub>𝑙</sub>∈ ℝ<sup>𝑑<sub>e</sub></sup>, three sets of layer-norm parameters,
   * | 𝑾<sup>𝑙</sup><sub>mlp1</sub> ∈ ℝ<sup>𝑑<sub>mlp</sub>×𝑑<sub>e</sub></sup>, 𝒃<sup>𝑙</sup><sub>mlp1</sub> ∈ ℝ<sup>𝑑<sub>mlp</sub></sup>, 𝑾<sup>𝑙</sup><sub>mlp2</sub> ∈ ℝ<sup>𝑑<sub>e</sub>×𝑑<sub>mlp</sub></sup>, 𝒃<sup>𝑙</sup><sub>mlp2</sub> ∈ ℝ<sup>𝑑<sub>e</sub></sup>, MLP parameters.
 
+encode the context sequence
+1. *l* ← length(𝒛)
+2. for 𝑡 ∈ [*l*<sub>z</sub>] : 𝒆<sub>𝑡</sub> ← 𝑾<sub>𝒆</sub> [:, 𝒛 [𝑡]] + 𝑾<sub>𝒑</sub> [:, 𝑡]
+3. 𝑿 ← [𝒆<sub>1</sub>, 𝒆<sub>2</sub>, . . . 𝒆<sub>*l*</sub>]
+4. for 𝑙 = 1, 2, . . . , 𝐿 do
+5. | 𝒁 ← 𝒁 + MHAttention(𝒁| 𝑾<sup>enc</sup><sub>l</sub> 𝑙, Mask = 1)
+6. | for 𝑡 ∈ [*l*] : 𝒆<sub>𝑡</sub> ← 𝑾<sub>𝒆</sub> [:, _z_ [𝑡]] + 𝑾<sub>𝒑</sub> [:, 𝑡]
+7. | 𝒁 ← [𝒆<sub>1</sub>, 𝒆<sub>2</sub>, . . . 𝒆<sub>*l*</sub>]
+8. | 
+9.  𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>1</sup><sub>𝑙</sub>, 𝜷<sup>1</sup><sub>𝑙</sub>)6 | 𝑿 ← 𝑿 + MHAttention(𝑿˜ |W<sub>𝑙</sub>, Mask[𝑡, 𝑡'] = [[𝑡 ≤ 𝑡']])7 | for 𝑡 ∈ [*l*] : 𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>2</sup><sub>𝑙</sub>, 𝜷<sup>2</sup><sub>𝑙</sub>)8 | 𝑿 ← 𝑿 + 𝑾<sup>𝑙</sup><sub>mlp2</sub>GELU(𝑾<sup>𝑙</sup><sub>mlp1</sub>𝑿˜ + 𝒃<sup>𝑙</sup><sub>mlp1</sub>1<sup>T</sup>) + 𝒃<sup>𝑙</sup><sub>mlp2</sub>1<sup>T</sup>9 end
+
 𝜸, 𝜷 ∈ ℝ<sup>𝑑<sub>e</sub></sup>, final layer-norm parameters.𝑾<sub>𝒖</sub> ∈ ℝ<sup>𝑁<sub>V</sub>×𝑑<sub>e</sub></sup>, the unembedding matrix.1 *l* ← length(𝒙)2 for 𝑡 ∈ [*l*] : 𝒆<sub>𝑡</sub> ← 𝑾<sub>𝒆</sub> [:, 𝑥 [𝑡]] + 𝑾<sub>𝒑</sub> [:, 𝑡]3 𝑿 ← [𝒆<sub>1</sub>, 𝒆<sub>2</sub>, . . . 𝒆<sub>*l*</sub>]4 for 𝑙 = 1, 2, . . . , 𝐿 do5 | for 𝑡 ∈ [*l*] : 𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>1</sup><sub>𝑙</sub>, 𝜷<sup>1</sup><sub>𝑙</sub>)6 | 𝑿 ← 𝑿 + MHAttention(𝑿˜ |W<sub>𝑙</sub>, Mask[𝑡, 𝑡'] = [[𝑡 ≤ 𝑡']])7 | for 𝑡 ∈ [*l*] : 𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>2</sup><sub>𝑙</sub>, 𝜷<sup>2</sup><sub>𝑙</sub>)8 | 𝑿 ← 𝑿 + 𝑾<sup>𝑙</sup><sub>mlp2</sub>GELU(𝑾<sup>𝑙</sup><sub>mlp1</sub>𝑿˜ + 𝒃<sup>𝑙</sup><sub>mlp1</sub>1<sup>T</sup>) + 𝒃<sup>𝑙</sup><sub>mlp2</sub>1<sup>T</sup>9 end10 for 𝑡 ∈ [*l*] : 𝑿[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸, 𝜷)11 return 𝑷 = softmax(𝑾<sub>𝒖</sub>𝑿)
 
 ## Critical Analysis
