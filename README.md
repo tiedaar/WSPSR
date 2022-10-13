@@ -1,4 +1,4 @@
-# WSPSR
+# WSPSR[[1]](#1)
 A brand new way to encode/decode audio
 
 ## Overview
@@ -38,9 +38,6 @@ All current audio transformers are encoder-only, meaning that they must be finet
 ## Video
 
 ## Code Demonstration
-
-## Citations
-"...the **go to** statement should be abolished..." [[1]](#1).
 
 ## References
 
