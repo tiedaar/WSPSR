@@ -3,6 +3,10 @@ A multi-modal audio-to-text encoder-decoder model trained on a large, weakly sup
 
 ## Overview
 ### Relevant work
+
+#### Pretrained multilingual language models
+Multilingual language models such as mBERT and XLM-R are large language models based on the BERT or RoBERTa architectures which train on not one but many languages. mBERT and XLM-R are both encoder-only language models with vocabularies of between 110K and 250K. This method has been found to increase accuracy, particularly with low-resource languages, since knowledge of one language seems to be able to transfer to others, even if they are unrelated.
+
 #### wav2vec
 Wav2vec[[3]](#3) and other audio models rely on a method of feature extraction in which raw audio is sampled (usually at 16,000 Hz) and converted through a fourier transform over time into a log-mel spectrogram. The coefficients of the spectrogram are fed into convolutional neural networks with between 2 and 5 layers. These networks are trained to output vectors called 'features' that can be used like tokens in a traditional text-based transformer.
 ![audio encoding](/pictures/audio-encoding.png)
@@ -11,6 +15,7 @@ Wav2vec[[3]](#3) and other audio models rely on a method of feature extraction i
 All current audio transformers are encoder-only, meaning that they must be finetuned. This can cause some problems:
 * Machine learning is good at cheating
 * Finetuned models are prone to overfitting
+
 ### Enter WSPR
 Two major improvements:
 * Large dataset with weak supervision
@@ -95,11 +100,16 @@ _derive conditional probabilities and return_
 
 ## References
 <a id="1">[1]</a> 
+Doddapaneni, S., Ramesh, G., Kunchukuttan, A., Kumar, P., & Khapra, M. M. (2021). 
+A primer on pretrained multilingual language models. 
+arXiv preprint arXiv:2107.00676.
+
+<a id="2">[2]</a> 
 Phuong, M., & Hutter, M. (2022). 
 Formal Algorithms for Transformers. 
 arXiv preprint arXiv:2207.09238.
 
-<a id="2">[2]</a> 
+<a id="3">[3]</a> 
 Radford, A., Kim, J.W., Tao, X., Brockman, G., McLeavey, C., & Sutskever, I. (2022). 
 Robust Speech Recognition via Large-Scale Weak Supervision.
 Technical report, OpenAI, 2022. URL https://cdn.openai.com/papers/whisper.pdf.
@@ -108,4 +118,3 @@ Technical report, OpenAI, 2022. URL https://cdn.openai.com/papers/whisper.pdf.
 Schneider, S., Baevski, A., Collobert, R., & Auli, M. (2019). 
 wav2vec: Unsupervised pre-training for speech recognition. 
 arXiv preprint arXiv:1904.05862.
-
