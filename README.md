@@ -46,6 +46,7 @@ All current audio transformers are encoder-only, meaning that they must be finet
   * | W<sup>e/d</sup>, multi-head cross-attention parameters for layer 𝑙, see (4),
   * | 𝜸<sup>3</sup><sub>𝑙</sub>, 𝜷<sup>3</sup><sub>𝑙</sub>, 𝜸<sup>4</sup><sub>𝑙</sub>, 𝜷<sup>4</sup><sub>𝑙</sub>, 𝜸<sup>5</sup><sub>𝑙</sub>, 𝜷<sup>5</sup><sub>𝑙</sub>∈ ℝ<sup>𝑑<sub>e</sub></sup>, three sets of layer-norm parameters,
   * | 𝑾<sup>𝑙</sup><sub>mlp1</sub> ∈ ℝ<sup>𝑑<sub>mlp</sub>×𝑑<sub>e</sub></sup>, 𝒃<sup>𝑙</sup><sub>mlp1</sub> ∈ ℝ<sup>𝑑<sub>mlp</sub></sup>, 𝑾<sup>𝑙</sup><sub>mlp2</sub> ∈ ℝ<sup>𝑑<sub>e</sub>×𝑑<sub>mlp</sub></sup>, 𝒃<sup>𝑙</sup><sub>mlp2</sub> ∈ ℝ<sup>𝑑<sub>e</sub></sup>, MLP parameters.
+ * 𝑾<sub>𝒖</sub> ∈ ℝ<sup>𝑁<sub>V</sub>×𝑑<sub>e</sub></sup>, the unembedding matrix.
 
 encode the context sequence
 1. *l* ← length(𝒛)
