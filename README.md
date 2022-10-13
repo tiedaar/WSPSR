@@ -25,11 +25,11 @@ All current audio transformers are encoder-only, meaning that they must be finet
 * 80-channel log-magnitude Mel spectrogram computed on 25ms windows with stride of 10 ms
 * Input is normalized
 * Features are extracted with small CNN then fed to encoder
-* 
 
 ## Questions
 
 ## Architecture
+![WSPSR pipeline](/pictures/WSPSR-pipeline.png)
 
 ## Critical Analysis
 
