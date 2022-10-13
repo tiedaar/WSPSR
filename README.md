@@ -29,7 +29,7 @@ All current audio transformers are encoder-only, meaning that they must be finet
 ## Questions
 
 ## Architecture
-![WSPSR pipeline](/pictures/WSPSR-pipeline.png)
+![WSPSR pipeline](/pictures/wspsr-pipeline.png)
 
 ## Critical Analysis
 
