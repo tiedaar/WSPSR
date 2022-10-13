@@ -1,11 +1,15 @@
 # WSPSR
-A brand new way to encode/decode audio
+A multi-modal audio-to-text encoder-decoder model trained on a large, weakly supervised dataset
 
 ## Overview
 ### An encoder/decoder audio model
 All current audio transformers are encoder-only, meaning that they must be finetuned. This can cause some problems:
 * Machine learning is good at cheating
 * Finetuned models are prone to overfitting
+### Enter WSPR
+Two major improvements:
+* Large dataset with weak supervision
+* Multimodal encoder-decoder architecture
 
 ### Datasets - Supervised, Unsupervised, Weakly Supervised
 * Not a lot of supervised data is available. Chan et al. only got 5,140 hours
@@ -14,7 +18,6 @@ All current audio transformers are encoder-only, meaning that they must be finet
 * WSPSR uses 680,000 hours of weakly supervised labeled audio data.
   * 117,000 hours are in 96 non-English languages
   * 125,000 hours of x -> en translation data
-  * fdsaf
 #### WSPSR's Weakly Supervised Annotation Process
  1. Trained on transcripted audio from the internet
  2. Subpar and machine generated transcripts are automatically detected and removed
@@ -27,11 +30,10 @@ All current audio transformers are encoder-only, meaning that they must be finet
 * Input is normalized
 * Features are extracted with small CNN then fed to encoder
 
-## Questions
-
-## Architecture
+#### Architecture
 ![WSPSR pipeline](/pictures/wspsr-pipeline.png)
 
+#### Pseudocode
 **Input**: 𝒛 ∈ 𝑉*<sub>𝒛</sub>, sequence of Mel spectrogram coefficients; 𝒙 ∈ 𝑉*<sub>𝒙</sub>, a sequence of token IDs.  
 **Output**: 𝑷 ∈ (0, 1)	<sup>𝑁<sub>V</sub>×length(𝒙)</sup>, where the 𝑡-th column of 𝑷 represents 𝑃ˆ𝜽(𝑥 [𝑡 + 1] | 𝒙[1 : 𝑡], 𝒛).  
 **Hyperparameters**: *l*<sub>max</sub>, 𝐿, 𝐻, 𝑑<sub>e</sub>, 𝑑<sub>mlp</sub> ∈ ℕ  
@@ -74,6 +76,7 @@ _derive conditional probabilities and return_
 21.  **return _P_** = softmax(𝑾<sub>u</sub>𝑿)
 
 
+## Questions
 ## Critical Analysis
 ### Low Resource Languages
 ### Low Quality Data
@@ -86,8 +89,13 @@ _derive conditional probabilities and return_
 ## Code Demonstration
 
 ## References
-
 <a id="1">[1]</a> 
+Phuong, M., & Hutter, M. (2022). 
+Formal Algorithms for Transformers. 
+arXiv preprint arXiv:2207.09238.
+
+<a id="2">[2]</a> 
 Radford, A., Kim, J.W., Tao, X., Brockman, G., McLeavey, C., & Sutskever, I. (2022). 
 Robust Speech Recognition via Large-Scale Weak Supervision.
 Technical report, OpenAI, 2022. URL https://cdn.openai.com/papers/whisper.pdf.
+
