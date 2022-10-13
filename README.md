@@ -2,6 +2,11 @@
 A multi-modal audio-to-text encoder-decoder model trained on a large, weakly supervised dataset
 
 ## Overview
+### Relevant work
+#### wav2vec
+Wav2vec[[3]] and other audio models rely on a method of feature extraction in which raw audio is sampled (usually at 16,000 Hz) and converted through a fourier transform over time into a log-mel spectrogram. The coefficients of the spectrogram are fed into convolutional neural networks with between 2 and 5 layers. These networks are trained to output vectors called 'features' that can be used like tokens in a traditional text-based transformer.
+![audio encoding](/pictures/audio-encoding.png)
+
 ### An encoder/decoder audio model
 All current audio transformers are encoder-only, meaning that they must be finetuned. This can cause some problems:
 * Machine learning is good at cheating
@@ -98,4 +103,9 @@ arXiv preprint arXiv:2207.09238.
 Radford, A., Kim, J.W., Tao, X., Brockman, G., McLeavey, C., & Sutskever, I. (2022). 
 Robust Speech Recognition via Large-Scale Weak Supervision.
 Technical report, OpenAI, 2022. URL https://cdn.openai.com/papers/whisper.pdf.
+
+<a id="3">[3]</a> 
+Schneider, S., Baevski, A., Collobert, R., & Auli, M. (2019). 
+wav2vec: Unsupervised pre-training for speech recognition. 
+arXiv preprint arXiv:1904.05862.
 
