@@ -14,6 +14,7 @@ All current audio transformers are encoder-only, meaning that they must be finet
 * WSPSR uses 680,000 hours of weakly supervised labeled audio data.
   * 117,000 hours are in 96 non-English languages
   * 125,000 hours of x -> en translation data
+  * fdsaf
 #### WSPSR's Weakly Supervised Annotation Process
  1. Trained on transcripted audio from the internet
  2. Subpar and machine generated transcripts are automatically detected and removed
