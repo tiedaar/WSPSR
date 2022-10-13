@@ -53,23 +53,26 @@ encode the context sequence
 2. for 𝑡 ∈ [*l*<sub>z</sub>] : 𝒆<sub>𝑡</sub> ← 𝑾<sub>𝒆</sub> [:, 𝒛 [𝑡]] + 𝑾<sub>𝒑</sub> [:, 𝑡]
 3. 𝑿 ← [𝒆<sub>1</sub>, 𝒆<sub>2</sub>, . . . 𝒆<sub>*l*</sub>]
 4. for 𝑙 = 1, 2, . . . , 𝐿 do
-5. | 𝒁 ← 𝒁 + MHAttention(𝒁| 𝑾<sup>enc</sup><sub>l</sub> 𝑙, Mask = 1)
-6. | for 𝑡 ∈ [*l,<sub>z</sub>*] : 𝒆<sub>𝑡</sub> ← layer_norm(𝒁[:,𝑡]|𝜸<sup>1</sup><sub>𝑙</sub>, 𝜷<sup>1</sup><sub>𝑙</sub>)
-7. | 𝒁 ← 𝒁 + 𝑾<sup>𝑙</sup><sub>mlp2</sub>ReLU(𝑾<sup>𝑙</sup><sub>mlp1</sub>𝒁+𝒃<sup>𝑙</sup><sub>mlp1</sub>) + 𝒃<sup>𝑙</sup><sub>mlp2</sub>**1**<sup>T</sup>
-8. | for 𝑡 ∈ [*l,<sub>z</sub>*]: 𝒁[:,t] ← layer_norm(𝒁[:,t]|𝜸<sup>2</sup><sub>𝑙</sub>, 𝜷<sup>2</sup><sub>𝑙</sub>)
+5. * | 𝒁 ← 𝒁 + MHAttention(𝒁| 𝑾<sup>enc</sup><sub>l</sub> 𝑙, Mask = 1)
+6. * | for 𝑡 ∈ [*l,<sub>z</sub>*] : 𝒆<sub>𝑡</sub> ← layer_norm(𝒁[:,𝑡]|𝜸<sup>1</sup><sub>𝑙</sub>, 𝜷<sup>1</sup><sub>𝑙</sub>)
+7. * | 𝒁 ← 𝒁 + 𝑾<sup>𝑙</sup><sub>mlp2</sub>ReLU(𝑾<sup>𝑙</sup><sub>mlp1</sub>𝒁+𝒃<sup>𝑙</sup><sub>mlp1</sub>) + 𝒃<sup>𝑙</sup><sub>mlp2</sub>**1**<sup>T</sup>
+8. * | for 𝑡 ∈ [*l,<sub>z</sub>*]: 𝒁[:,t] ← layer_norm(𝒁[:,t]|𝜸<sup>2</sup><sub>𝑙</sub>, 𝜷<sup>2</sup><sub>𝑙</sub>)
 9. **end**
 decode the primary sequence, conditioning on the context
-10.  *l*<sub>z</sub> ← length(𝒙)
-11.  for 𝑡 ∈ [*l*] : 𝒆<sub>𝑡</sub> ← 𝑾<sub>𝒆</sub> [:, 𝑥 [𝑡]] + 𝑾<sub>𝒑</sub> [:, 𝑡]
+10.  *l*<sub>x</sub> ← length(𝒙)
+11.  for 𝑡 ∈ [*l*<sub>x</sub>] : 𝒆<sub>𝑡</sub> ← 𝑾<sub>𝒆</sub> [:, 𝑥 [𝑡]] + 𝑾<sub>𝒑</sub> [:, 𝑡]
 12.  𝑿 ← [𝒆<sub>1</sub>, 𝒆<sub>2</sub>, . . . 𝒆<sub>*l*</sub>]
-13.  * |
+13.  for i<sub>dec</sub> = 1, 2, . . . , 𝐿 **do**
+14.  * | 𝑿 ← 𝑿 + MHAttention(𝑿 |W<sub>𝑙</sub><sup>dec</sup>, Mask[𝑡, 𝑡'] = [[𝑡 ≤ 𝑡']])
+15.  * | for 𝑡 ∈ [*l*<sub>x</sub>] : 𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>3</sup><sub>𝑙</sub>, 𝜷<sup>3</sup><sub>𝑙</sub>)
+16.  * | 𝑿 ← 𝑿 + MHAttention(𝑿 |W<sub>𝑙</sub><sup>e/d</sup>, Mask = 1)
+17.  * | for 𝑡 ∈ [*l*<sub>x</sub>] : 𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>4</sup><sub>𝑙</sub>, 𝜷<sup>4</sup><sub>𝑙</sub>)
+18.  * | 𝑿 ← 𝑿 + 𝑾<sup>𝑙</sup><sub>mlp4</sub>ReLU(𝑾<sup>𝑙</sup><sub>mlp3</sub>𝑿+𝒃<sup>𝑙</sup><sub>mlp3</sub>) + 𝒃<sup>𝑙</sup><sub>mlp4</sub>**1**<sup>T</sup>
+19.  * | for 𝑡 ∈ [*l*<sub>x</sub>] : 𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>5</sup><sub>𝑙</sub>, 𝜷<sup>5</sup><sub>𝑙</sub>)
+20.  **end**
+derive conditional probabilities and return
+21.  **return _P_** = softmax(𝑾<sub>u</sub>𝑿)
 
-
-
-
-12.  𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>1</sup><sub>𝑙</sub>, 𝜷<sup>1</sup><sub>𝑙</sub>)6 | 𝑿 ← 𝑿 + MHAttention(𝑿˜ |W<sub>𝑙</sub>, Mask[𝑡, 𝑡'] = [[𝑡 ≤ 𝑡']])7 | for 𝑡 ∈ [*l*] : 𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>2</sup><sub>𝑙</sub>, 𝜷<sup>2</sup><sub>𝑙</sub>)8 | 𝑿 ← 𝑿 + 𝑾<sup>𝑙</sup><sub>mlp2</sub>GELU(𝑾<sup>𝑙</sup><sub>mlp1</sub>𝑿˜ + 𝒃<sup>𝑙</sup><sub>mlp1</sub>1<sup>T</sup>) + 𝒃<sup>𝑙</sup><sub>mlp2</sub>1<sup>T</sup>9 end
-
-𝜸, 𝜷 ∈ ℝ<sup>𝑑<sub>e</sub></sup>, final layer-norm parameters.𝑾<sub>𝒖</sub> ∈ ℝ<sup>𝑁<sub>V</sub>×𝑑<sub>e</sub></sup>, the unembedding matrix.1 *l* ← length(𝒙)2 for 𝑡 ∈ [*l*] : 𝒆<sub>𝑡</sub> ← 𝑾<sub>𝒆</sub> [:, 𝑥 [𝑡]] + 𝑾<sub>𝒑</sub> [:, 𝑡]3 𝑿 ← [𝒆<sub>1</sub>, 𝒆<sub>2</sub>, . . . 𝒆<sub>*l*</sub>]4 for 𝑙 = 1, 2, . . . , 𝐿 do5 | for 𝑡 ∈ [*l*] : 𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>1</sup><sub>𝑙</sub>, 𝜷<sup>1</sup><sub>𝑙</sub>)6 | 𝑿 ← 𝑿 + MHAttention(𝑿˜ |W<sub>𝑙</sub>, Mask[𝑡, 𝑡'] = [[𝑡 ≤ 𝑡']])7 | for 𝑡 ∈ [*l*] : 𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>2</sup><sub>𝑙</sub>, 𝜷<sup>2</sup><sub>𝑙</sub>)8 | 𝑿 ← 𝑿 + 𝑾<sup>𝑙</sup><sub>mlp2</sub>GELU(𝑾<sup>𝑙</sup><sub>mlp1</sub>𝑿˜ + 𝒃<sup>𝑙</sup><sub>mlp1</sub>1<sup>T</sup>) + 𝒃<sup>𝑙</sup><sub>mlp2</sub>1<sup>T</sup>9 end10 for 𝑡 ∈ [*l*] : 𝑿[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸, 𝜷)11 return 𝑷 = softmax(𝑾<sub>𝒖</sub>𝑿)
 
 ## Critical Analysis
 ### Low Resource Languages
