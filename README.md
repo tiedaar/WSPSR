@@ -58,6 +58,7 @@ encode the context sequence
 7. * | 𝒁 ← 𝒁 + 𝑾<sup>𝑙</sup><sub>mlp2</sub>ReLU(𝑾<sup>𝑙</sup><sub>mlp1</sub>𝒁+𝒃<sup>𝑙</sup><sub>mlp1</sub>) + 𝒃<sup>𝑙</sup><sub>mlp2</sub>**1**<sup>T</sup>
 8. * | for 𝑡 ∈ [*l,<sub>z</sub>*]: 𝒁[:,t] ← layer_norm(𝒁[:,t]|𝜸<sup>2</sup><sub>𝑙</sub>, 𝜷<sup>2</sup><sub>𝑙</sub>)
 9. **end**
+
 decode the primary sequence, conditioning on the context
 10.  *l*<sub>x</sub> ← length(𝒙)
 11.  for 𝑡 ∈ [*l*<sub>x</sub>] : 𝒆<sub>𝑡</sub> ← 𝑾<sub>𝒆</sub> [:, 𝑥 [𝑡]] + 𝑾<sub>𝒑</sub> [:, 𝑡]
@@ -70,6 +71,7 @@ decode the primary sequence, conditioning on the context
 18.  * | 𝑿 ← 𝑿 + 𝑾<sup>𝑙</sup><sub>mlp4</sub>ReLU(𝑾<sup>𝑙</sup><sub>mlp3</sub>𝑿+𝒃<sup>𝑙</sup><sub>mlp3</sub>) + 𝒃<sup>𝑙</sup><sub>mlp4</sub>**1**<sup>T</sup>
 19.  * | for 𝑡 ∈ [*l*<sub>x</sub>] : 𝑿˜[:, 𝑡] ← layer_norm(𝑿[:, 𝑡] | 𝜸<sup>5</sup><sub>𝑙</sub>, 𝜷<sup>5</sup><sub>𝑙</sub>)
 20.  **end**
+
 derive conditional probabilities and return
 21.  **return _P_** = softmax(𝑾<sub>u</sub>𝑿)
 
