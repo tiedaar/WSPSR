@@ -9,6 +9,7 @@ Multilingual language models such as mBERT and XLM-R are large language models b
 
 #### wav2vec
 Wav2vec[[3]](#3) and other audio models rely on a method of feature extraction in which raw audio is sampled (usually at 16,000 Hz) and converted through a fourier transform over time into a log-mel spectrogram. The coefficients of the spectrogram are fed into convolutional neural networks with between 2 and 5 layers. These networks are trained to output vectors called 'features' that can be used like tokens in a traditional text-based transformer.
+
 ![audio encoding](/pictures/audio-encoding.png)
 
 ### An encoder/decoder audio model
