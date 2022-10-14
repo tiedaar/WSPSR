@@ -20,6 +20,8 @@ All current audio transformers are encoder-only, meaning that they must be finet
 * Machine learning is good at cheating
 * Finetuned models are prone to overfitting
 
+![oh noes!](/pictures/ohnoes.jpg)
+
 ### Enter WSPR
 Two major improvements:
 * Large dataset with weak supervision
