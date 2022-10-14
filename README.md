@@ -45,6 +45,7 @@ Two major improvements:
 * 80-channel log-magnitude Mel spectrogram computed on 25ms windows with stride of 10 ms
 * Input is normalized
 * Features are extracted with small CNN then fed to encoder
+* Architecture is similar to original encoder/decoder, with some special tokens
 
 #### Architecture
 ![WSPSR pipeline](/pictures/wspsr-pipeline.png)
