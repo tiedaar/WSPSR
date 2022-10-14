@@ -1,5 +1,8 @@
 # WSPSR
 A multi-modal audio-to-text encoder-decoder model trained on a large, weakly supervised dataset
+![wisper](/pictures/wisper.png)
+
+
 
 ## Overview
 ### Relevant work
