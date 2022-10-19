@@ -25,9 +25,10 @@ To make matters even worse, most current audio models have very small training s
 ![oh noes!](/pictures/ohnoes.jpg)
 
 ### Enter WSPR
-Two major improvements:
+Three major improvements:
 * Large dataset with weak supervision
 * Multimodal encoder-decoder architecture
+* Task-specific tokens fed to the decoder
 
 ### Datasets - Supervised, Unsupervised, Weakly Supervised
 * Not a lot of supervised data is available. Chan et al. only got 5,140 hours
