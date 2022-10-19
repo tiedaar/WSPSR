@@ -107,6 +107,8 @@ This work is a great start toward translation in low resource languages, but how
 The data used in the training of Whisper is far from 'gold standard'. Much of it is, itself, machine translated or transcribed. Would improvements in data collection lead to a more powerful model?
 ### Additional Tasks
 Whisper is purpose-built as a transcription/translation model wich works out of the box without any finetuning or extra training. However, these are not the only purposes for a textless nlp model. It remains to be seen whether it can be repurposed with additional training for other tasks.
+### Small context length
+As a result of the limited sequence length, Whisper can only process audio files that are less than 30 seconds long. This may be sufficient for translation or transcription tasks, but may not be enough for other types of NLP tasks such as classification or summarization.
 
 ## Links
 [The link to whisper's github](https://github.com/openai/whisper)
