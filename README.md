@@ -26,22 +26,9 @@ To make matters even worse, most current audio models have very small training s
 
 ### Enter WSPR
 Three major improvements:
-* Large dataset with weak supervision
 * Multimodal encoder-decoder architecture
 * Task-specific tokens fed to the decoder
-
-### Datasets - Supervised, Unsupervised, Weakly Supervised
-* Not a lot of supervised data is available. Chan et al. only got 5,140 hours
-* Unsupervised data can be easier to find (Zhang et al. got 1,000,000 hours) but is noisier
-* Weak supervision uses data that is labeled by machine
-* WSPSR uses 680,000 hours of weakly supervised labeled audio data.
-  * 117,000 hours are in 96 non-English languages
-  * 125,000 hours of x -> en translation data
-#### WSPSR's Weakly Supervised Annotation Process
- 1. Trained on transcripted audio from the internet
- 2. Subpar and machine generated transcripts are automatically detected and removed
- 3. Audio language detector was used to annotate language
- 4. Performed deduplication and manual inspection
+* Large dataset with weak supervision
 
 ### The Model
 * Audio is resampled at 16,000 Hz
@@ -95,6 +82,19 @@ _decode the primary sequence, conditioning on the context_
 _derive conditional probabilities and return_
 21.  **return _P_** = softmax(𝑾<sub>u</sub>𝑿)
 
+
+### Datasets - Supervised, Unsupervised, Weakly Supervised
+* Not a lot of supervised data is available. Chan et al. only got 5,140 hours
+* Unsupervised data can be easier to find (Zhang et al. got 1,000,000 hours) but is noisier
+* Weak supervision uses data that is labeled by machine
+* WSPSR uses 680,000 hours of weakly supervised labeled audio data.
+  * 117,000 hours are in 96 non-English languages
+  * 125,000 hours of x -> en translation data
+#### WSPSR's Weakly Supervised Annotation Process
+ 1. Trained on transcripted audio from the internet
+ 2. Subpar and machine generated transcripts are automatically detected and removed
+ 3. Audio language detector was used to annotate language
+ 4. Performed deduplication and manual inspection
 
 ## Questions
 ### 1. How does Whisper differ from the original encoder/decoder?
