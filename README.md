@@ -20,6 +20,8 @@ All current audio transformers are encoder-only, meaning that they must be finet
 * Machine learning is good at cheating
 * Finetuned models are prone to overfitting
 
+To make matters even worse, most current audio models have very small training sets as a result of the difficulty of getting high-quality labelled data in audio. For example, Wav2Vec uses only 960 hours of audio (which may seem like a lot, but it's not).
+
 ![oh noes!](/pictures/ohnoes.jpg)
 
 ### Enter WSPR
@@ -94,16 +96,26 @@ _derive conditional probabilities and return_
 
 
 ## Questions
+### 1. How does Whisper differ from the original encoder/decoder?
+### 2. What does it mean for data to be 'weakly supervised'?
+### 3. Can you think of any other applications of weakly supervised data outside of textless nlp?
+
 ## Critical Analysis
 ### Low Resource Languages
+This work is a great start toward translation in low resource languages, but how do we expand our dataset to include more languages and include more data from languages that are not well-represented? On the other side, while text-based multilingual models have been shown to improve accuracy for low-resource languages, they are actually not as good as mono-lingual models for highly resourced languages. Would the weak supervision process for obtaining very large datasets be a good way to train a monolingual model?
 ### Low Quality Data
+The data used in the training of Whisper is far from 'gold standard'. Much of it is, itself, machine translated or transcribed. Would improvements in data collection lead to a more powerful model?
 ### Additional Tasks
+Whisper is purpose-built as a transcription/translation model wich works out of the box without any finetuning or extra training. However, these are not the only purposes for a textless nlp model. It remains to be seen whether it can be repurposed with additional training for other tasks.
 
 ## Links
+[The link to whisper's github](https://github.com/openai/whisper)
+[The link to openai's blog](https://openai.com/blog/whisper/)
+[An article from infoq about openai](https://www.infoq.com/news/2022/10/openai-whisper-speech/)
+[A youtube video by setdex](https://www.youtube.com/watch?v=OCBZtgQGt1I)
+[Here is whisper's huggingface page](https://huggingface.co/spaces/openai/whisper)
 
 ## Video
-
-## Code Demonstration
 
 ## References
 <a id="1">[1]</a> 
