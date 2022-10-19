@@ -113,9 +113,13 @@ As a result of the limited sequence length, Whisper can only process audio files
 
 ## Links
 [The link to whisper's github](https://github.com/openai/whisper)
+
 [The link to openai's blog](https://openai.com/blog/whisper/)
+
 [An article from infoq about openai](https://www.infoq.com/news/2022/10/openai-whisper-speech/)
+
 [A youtube video by setdex](https://www.youtube.com/watch?v=OCBZtgQGt1I)
+
 [Here is whisper's huggingface page](https://huggingface.co/spaces/openai/whisper)
 
 ## Video
